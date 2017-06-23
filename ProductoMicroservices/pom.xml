@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>pe.com.microservices</groupId>
+  <artifactId>ProductoMicroservices</artifactId>
+  <version>1.0</version>
+  <name>ProductoMicroservices</name>
+  
+  <parent>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-parent</artifactId>
+    <version>Brixton.RELEASE</version>
+  </parent>
+  
+  <properties>
+  	<docker.image.prefix>springio</docker.image.prefix>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+	<maven.test.failure.ignore>true</maven.test.failure.ignore>
+	<spring.version>4.2.5.RELEASE</spring.version>
+	<junit.version>4.8.2</junit.version>
+	<slf4j.version>1.7.7</slf4j.version>
+	<mybatis.version>3.3.0</mybatis.version>
+	<junit.version>4.11</junit.version>		
+	<mybatis.spring.version>1.2.3</mybatis.spring.version>
+	<docker.image.prefix>demosura</docker.image.prefix>
+  </properties>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-starter</artifactId>
+  	</dependency>
+  	
+  	<dependency>
+        <!-- Setup Spring MVC & REST, use Embedded Tomcat -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+ 
+    <dependency>
+        <!-- Spring Cloud starter -->
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter</artifactId>
+    </dependency>
+ 
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    
+    <dependency>
+        <!-- Eureka for service registration -->
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-eureka-server</artifactId>
+    </dependency>
+    
+    <!-- Libreria SPRING -->
+    <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${spring.version}</version>
+	</dependency>
+    
+    <!-- GSON -->
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.3.1</version>
+    </dependency>
+		
+	<!-- Logging -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.16</version>
+	</dependency>
+		
+	<!-- Libreria de conexion con la base de datos -->
+<!-- 	<dependency> -->
+<!--         <groupId>com.oracle</groupId> -->
+<!--         <artifactId>ojdbc14</artifactId> -->
+<!--         <version>10.2.0.4.0</version> -->
+<!--     </dependency> -->
+    	
+    <!-- Libreria mybatis -->
+    <dependency>
+    	<groupId>org.mybatis</groupId>
+    	<artifactId>mybatis</artifactId>
+    	<version>${mybatis.version}</version>
+	</dependency>
+		
+	<!-- Integracion MyBatis-Spring -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>${mybatis.spring.version}</version>
+	</dependency>
+  </dependencies>
+  
+  <build>
+	<plugins>
+		<!-- <plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<executions>
+				<execution>
+					<goals>
+						<goal>repackage</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin> -->
+		<plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <!-- tag::plugin[] -->
+        <plugin>
+        	<groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>0.4.11</version>
+            <configuration>
+            	<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                <dockerDirectory>src/main/java/docker</dockerDirectory>
+                <resources>
+                	<resource>
+                    	<targetPath>/</targetPath>
+                        <directory>${project.build.directory}</directory>
+                        <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+            </configuration>
+        </plugin>
+	</plugins>
+  </build>
+</project>

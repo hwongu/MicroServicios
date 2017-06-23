@@ -1,0 +1,20 @@
+# Spring properties
+spring:
+  application:
+     name: producto-microservice  # Service registers under this name
+  freemarker:
+    enabled: false           # Ignore Eureka dashboard FreeMarker templates
+  thymeleaf:
+    cache: false             # Allow Thymeleaf templates to be reloaded at runtime
+    prefix: classpath:/templates/    # Trailing / mandatory
+                             # Template location for this application only
+ 
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka
+ 
+# HTTP Server
+server:
+  port: 9994   # HTTP (Tomcat) port
